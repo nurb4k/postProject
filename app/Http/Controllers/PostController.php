@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
 
     public function index(): View
@@ -25,15 +23,7 @@ class PostController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'img' => 'required|image|mimes:jpg,jpeg,png,gif,svg| max:2048',
-        ]);
-        $fileName = time() . $request->file('img')->getClientOriginalName();
-        $image_path = $request->file('img')->storeAs('posts', $fileName, 'public');
-        $validated['img'] = '/storage/' . $image_path;
-        Auth::user()->posts()->create($validated);
+        $this->service->store($request);
         return redirect()->route('posts.index')->with('message', 'Post created!');
     }
 
@@ -49,17 +39,9 @@ class PostController extends Controller
     }
 
 
-    public function update(Request $request, Post $post): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'img' => 'required|image|mimes:jpg,jpeg,png,gif,svg| max:2048',
-        ]);
-        $fileName = time() . $request->file('img')->getClientOriginalName();
-        $image_path = $request->file('img')->storeAs('posts', $fileName, 'public');
-        $validated['img'] = '/storage/' . $image_path;
-        Auth::user()->posts()->update($validated);
+        $this->service->update($request);
         return redirect()->route('posts.index');
     }
 

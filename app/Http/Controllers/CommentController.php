@@ -10,7 +10,7 @@ use Illuminate\View\View;
 
 class CommentController extends Controller
 {
-
+    
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([

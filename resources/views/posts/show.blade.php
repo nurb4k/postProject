@@ -44,8 +44,8 @@
                     <h3>Comments:</h3>
                     @foreach($post->comments as $com)
                         <div class="container-sm border">
+                            <p>Author: {{$com->user->name}}</p>
                             <hr>
-                            <p>{{$com->user->name}}</p>
                             <p>{{$com->content}}</p>
                             <img src="{{asset($com->img)}}" width="100" alt="">
                             <hr>
