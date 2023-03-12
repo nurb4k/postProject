@@ -3,7 +3,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use  Illuminate\Http\Request;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Auth2\RegisterController;
@@ -20,7 +19,6 @@ Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class)->only('index', 'show');
 
 Auth::routes();
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/register', [RegisterController::class, 'create'])->name('register.form');

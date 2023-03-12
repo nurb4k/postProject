@@ -34,7 +34,6 @@ class PostController extends Controller
         $image_path = $request->file('img')->storeAs('posts', $fileName, 'public');
         $validated['img'] = '/storage/' . $image_path;
         Auth::user()->posts()->create($validated);
-//        Post::create($validated + ['user_id' => Auth::user()->id]);
         return redirect()->route('posts.index')->with('message', 'Post created!');
     }
 
@@ -52,11 +51,15 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post): RedirectResponse
     {
-        $post->update([
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'img' => 'required|image|mimes:jpg,jpeg,png,gif,svg| max:2048',
         ]);
-
+        $fileName = time() . $request->file('img')->getClientOriginalName();
+        $image_path = $request->file('img')->storeAs('posts', $fileName, 'public');
+        $validated['img'] = '/storage/' . $image_path;
+        Auth::user()->posts()->update($validated);
         return redirect()->route('posts.index');
     }
 

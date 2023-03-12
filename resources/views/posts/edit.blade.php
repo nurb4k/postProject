@@ -6,7 +6,7 @@
     </div>
     <div class="container border p-2">
         <div class="form-group">
-            <form action="{{ route('posts.update', $post->id) }}" method="post">
+            <form action="{{ route('posts.update', $post->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <label for="forTitle">Title:</label>
@@ -14,7 +14,11 @@
                 <label for="forCont">Content:</label>
                 <textarea class="form-control" rows="6" name="content" id="forCont">{{$post->content}}
                 </textarea>
-                <button class="btn btn-primary mt-2" type="submit ">Update post</button>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Image</label>
+                    <input class="form-control" required name="img" type="file" id="formFile">
+                </div>
+                <button class="btn btn-primary mt-2" type="submit">Update post</button>
             </form>
         </div>
     </div>
